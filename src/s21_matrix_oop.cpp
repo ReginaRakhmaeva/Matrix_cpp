@@ -1,58 +1,83 @@
 #include "s21_matrix_oop.h"
-// конструктор
-S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
-  if (rows_ < 1 || cols_ < 1) {
-    throw std::invalid_argument("Invalid matrix dimensions");
-  }
 
-  // Выделение памяти для матрицы
-  matrix_ = new double*[rows_];
-  for (int i = 0; i < rows_; ++i) {
+// Конструктор по умолчанию
+S21Matrix::S21Matrix() : rows_(0), cols_(0), matrix_(nullptr) {}
+
+// Параметризированный конструктор
+S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
+  if (rows_ <= 0 || cols_ <= 0) {
+    throw std::invalid_argument("Rows and columns must be positive integers");
+  }
+  matrix_ = new double *[rows_];
+  for (int i = 0; i < rows_; i++) {
     matrix_[i] = new double[cols_]();
   }
 }
-// деструктор
+
+// Конструктор переноса
+S21Matrix::S21Matrix(S21Matrix &&other)
+    : rows_(other.rows_), cols_(other.cols_), matrix_(other.matrix_) {
+  other.rows_ = 0;
+  other.cols_ = 0;
+  other.matrix_ = nullptr;
+};
+
+// Конструктор копирования ??????
+S21Matrix::S21Matrix(const S21Matrix &other)
+    : rows_(other.rows_), cols_(other.cols_) {
+  matrix_ = new double *[rows_];
+  for (int i = 0; i < rows_; i++) {
+    matrix_[i] = new double[cols_];
+    for (int j = 0; j < cols_; j++) {
+      matrix_[i][j] = other.matrix_[i][j];
+    }
+  }
+};
+
+// Деструктор
 S21Matrix::~S21Matrix() {
   for (int i = 0; i < rows_; ++i) {
-    delete[] matrix_[i];  // Освобождаем память для каждой строки
+    delete[] matrix_[i];
   }
-  delete[] matrix_;  // Освобождаем память для массива указателей
+  delete[] matrix_;
 }
 
-// // заполнение матриц для тестов
-// void s21_fill_matrix_with_value(matrix_t *matrix, double value) {
-//   for (int i = 0; i < matrix->rows; i++) {
-//     for (int j = 0; j < matrix->columns; j++) {
-//       matrix->matrix[i][j] = value;
-//     }
-//   }
-// }
-// // Создание матриц (create_matrix)
-// int s21_create_matrix(int rows, int columns, matrix_t *result) {
-//   int fl = OK;
-//   if (rows < 1 || columns < 1 || result == NULL) {
-//     fl = FAIL_1;
-//   }
-//   if (fl == OK) {
-//     result->rows = rows;
-//     result->columns = columns;
-//     result->matrix = (double **)calloc(rows, sizeof(double *));
-//     if (result->matrix == NULL) {
-//       fl = FAIL_1;
-//     }
-//     for (int i = 0; i < rows; i++) {
-//       result->matrix[i] = (double *)calloc(columns, sizeof(double));
-//       if (result->matrix[i] == NULL) {
-//         for (int j = 0; j < i; j++) {
-//           free(result->matrix[j]);
-//         }
-//         free(result->matrix);
-//         fl = FAIL_1;
-//       }
-//     }
-//   }
-//   return fl;
-// }
+bool S21Matrix::EqMatrix(const S21Matrix &other) const {
+  if (rows_ != other.rows_ || cols_ != other.cols_) {
+    return false;
+  }
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
+      if (matrix_[i][j] != other.matrix_[i][j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+bool S21Matrix::operator==(const S21Matrix &other) const {
+  return EqMatrix(other);
+}
+// для тестов
+int S21Matrix::getRows() const { return rows_; }
+int S21Matrix::getCols() const { return cols_; }
+double **S21Matrix::getMatrix() const { return matrix_; }
+void S21Matrix::setValue(int row, int col, double value) {
+  if (row >= 0 && row < rows_ && col >= 0 && col < cols_) {
+    matrix_[row][col] = value;
+  } else {
+    throw std::out_of_range("Invalid matrix indices");
+  }
+}
+double S21Matrix::getValue(int row, int col) const {
+  if (row >= 0 && row < rows_ && col >= 0 && col < cols_) {
+    return matrix_[row][col];
+  } else {
+    throw std::out_of_range("Invalid matrix indices");
+  }
+}
+
 // // Очистка матриц(remove_matrix)
 // void s21_remove_matrix(matrix_t *A) {
 //   if (A != NULL && A->matrix != NULL) {
