@@ -41,25 +41,49 @@ TEST(S21MatrixTest, MoveConstructor) {
             nullptr);  // Убедимся, что оригинальная матрица была "обнулена"
 }
 
-// // Тестирование сложения матриц
-// TEST(S21MatrixTest, AddMatrix) {
-//   S21Matrix m1(2, 2);
-//   S21Matrix m2(2, 2);
-//   m1.setValue(0, 0, 1.0);
-//   m2.setValue(0, 0, 2.0);
-//   S21Matrix result = m1 + m2;
-//   EXPECT_EQ(result.getValue(0, 0), 3.0);  // Проверка корректности сложения
-// }
+// Тестирование оператора сложения +
+TEST(S21MatrixTest, OperatorPlus) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m2.setValue(0, 0, 3.0);
+  m2.setValue(0, 1, 4.0);
 
-// // Тестирование умножения матриц
-// TEST(S21MatrixTest, MultiplyMatrix) {
-//   S21Matrix m1(2, 2);
-//   S21Matrix m2(2, 2);
-//   m1.setValue(0, 0, 2.0);
-//   m2.setValue(0, 0, 3.0);
-//   S21Matrix result = m1 * m2;
-//   EXPECT_EQ(result.getValue(0, 0), 6.0);  // Проверка корректности умножения
-// }
+  S21Matrix result = m1 + m2;
+
+  EXPECT_EQ(result.getValue(0, 0), 4.0);
+  EXPECT_EQ(result.getValue(0, 1), 6.0);
+}
+
+// Тестирование оператора +=
+TEST(S21MatrixTest, OperatorPlusEqual) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m2.setValue(0, 0, 3.0);
+  m2.setValue(0, 1, 4.0);
+
+  m1 += m2;
+
+  EXPECT_EQ(m1.getValue(0, 0), 4.0);
+  EXPECT_EQ(m1.getValue(0, 1), 6.0);
+}
+// Тестирование метода SumMatrix
+TEST(S21MatrixTest, SumMatrixMethod) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m2.setValue(0, 0, 3.0);
+  m2.setValue(0, 1, 4.0);
+
+  m1.SumMatrix(m2);
+
+  EXPECT_EQ(m1.getValue(0, 0), 4.0);
+  EXPECT_EQ(m1.getValue(0, 1), 6.0);
+}
 
 // Тестирование на выброс исключения при некорректных размерах
 TEST(S21MatrixTest, InvalidConstructor) {

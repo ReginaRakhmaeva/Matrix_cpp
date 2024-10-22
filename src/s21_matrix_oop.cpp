@@ -60,41 +60,11 @@ bool S21Matrix::operator==(const S21Matrix &other) const {
   return EqMatrix(other);
 }
 
-void S21Matrix::SumMatrix(const S21Matrix &other) {
-  if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw std::invalid_argument(
-        "Matrices must have the same dimensions for addition.");
-  }
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      matrix_[i][j] += other.matrix_[i][j];
-    }
-  }
-}
-
-// Реализация перегруженного оператора сложения
 S21Matrix S21Matrix::operator+(const S21Matrix &other) const {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument(
         "Matrices must have the same dimensions for addition.");
   }
-
-  S21Matrix result(rows_, cols_);
-
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      result.matrix_[i][j] = this->matrix_[i][j] + other.matrix_[i][j];
-    }
-  }
-  return result;
-}
-
-S21Matrix S21Matrix::operator+(const S21Matrix &other) const {
-  if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw std::invalid_argument(
-        "Matrices must have the same dimensions for addition.");
-  }
-
   S21Matrix result(rows_, cols_);
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
@@ -105,19 +75,15 @@ S21Matrix S21Matrix::operator+(const S21Matrix &other) const {
 }
 
 S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
-  // Проверка на соответствие размеров матриц
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument(
         "Matrices must have the same dimensions for addition.");
   }
-
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      matrix_[i][j] +=
-          other.matrix_[i][j];  // Добавляем значения другой матрицы
+      matrix_[i][j] += other.matrix_[i][j];
     }
   }
-
   return *this;
 }
 
