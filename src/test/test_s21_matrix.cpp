@@ -85,6 +85,19 @@ TEST(S21MatrixTest, EqMatrix) {
   EXPECT_FALSE(matrix1.EqMatrix(matrix2));
 }
 
+// Тестирование перегруженного оператора сравнения ==
+TEST(S21MatrixTest, OperatorEquals) {
+  S21Matrix matrix1(2, 3);
+  matrix1.setValue(0, 0, 5.0);
+  matrix1.setValue(1, 2, 7.0);
+  S21Matrix matrix2(2, 3);
+  matrix2.setValue(0, 0, 5.0);
+  matrix2.setValue(1, 2, 7.0);
+  EXPECT_TRUE(matrix1 == matrix2);
+  matrix2.setValue(1, 2, 10.0);
+  EXPECT_FALSE(matrix1 == matrix2);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

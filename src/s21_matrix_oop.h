@@ -36,7 +36,6 @@ class S21Matrix {
   double getValue(int row, int col) const;
 
   bool operator==(const S21Matrix &other) const;
-
   bool EqMatrix(const S21Matrix &other) const;
   void SumMatrix(const S21Matrix &other);
   void SubMatrix(const S21Matrix &other);
