@@ -35,7 +35,7 @@ class S21Matrix {
   void setValue(int row, int col, double value);
   double getValue(int row, int col) const;
 
-  bool S21Matrix::operator==(const S21Matrix &other) const;
+  bool operator==(const S21Matrix &other) const;
 
   bool EqMatrix(const S21Matrix &other) const;
   void SumMatrix(const S21Matrix &other);

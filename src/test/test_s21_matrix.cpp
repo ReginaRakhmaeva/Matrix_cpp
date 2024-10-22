@@ -74,6 +74,17 @@ TEST(S21MatrixTest, DestructorTest) {
   SUCCEED();  // Проверка, что деструктор завершился без падений
 }
 
+// Тестирование метода EqMatrix
+TEST(S21MatrixTest, EqMatrix) {
+  S21Matrix matrix1(2, 3);
+  matrix1.setValue(0, 0, 5.0);
+  S21Matrix matrix2(2, 3);
+  matrix2.setValue(0, 0, 5.0);
+  EXPECT_TRUE(matrix1.EqMatrix(matrix2));
+  matrix2.setValue(1, 1, 10.0);
+  EXPECT_FALSE(matrix1.EqMatrix(matrix2));
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
