@@ -122,6 +122,39 @@ TEST(S21MatrixTest, OperatorEquals) {
   EXPECT_FALSE(matrix1 == matrix2);
 }
 
+// Тестирование оператора умножения *
+TEST(S21MatrixTest, OperatorMultiply) {
+  S21Matrix m1(2, 3);
+  S21Matrix m2(3, 2);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+
+  m2.setValue(0, 0, 7.0);
+  m2.setValue(0, 1, 8.0);
+  m2.setValue(1, 0, 9.0);
+  m2.setValue(1, 1, 10.0);
+  m2.setValue(2, 0, 11.0);
+  m2.setValue(2, 1, 12.0);
+
+  S21Matrix expected(2, 2);
+  expected.setValue(0, 0, 58.0);
+  expected.setValue(0, 1, 64.0);
+  expected.setValue(1, 0, 139.0);
+  expected.setValue(1, 1, 154.0);
+
+  S21Matrix result = m1 * m2;
+
+  EXPECT_EQ(result.getValue(0, 0), expected.getValue(0, 0));
+  EXPECT_EQ(result.getValue(0, 1), expected.getValue(0, 1));
+  EXPECT_EQ(result.getValue(1, 0), expected.getValue(1, 0));
+  EXPECT_EQ(result.getValue(1, 1), expected.getValue(1, 1));
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
