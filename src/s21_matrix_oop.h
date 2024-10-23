@@ -40,6 +40,8 @@ class S21Matrix {
   S21Matrix operator+(const S21Matrix &other) const;
   S21Matrix &operator+=(const S21Matrix &other);
   S21Matrix &operator-=(const S21Matrix &other);
+  S21Matrix &operator*=(const S21Matrix &other);
+  S21Matrix &operator=(const S21Matrix &other);
   S21Matrix operator*(const S21Matrix &other) const;
   void SumMatrix(const S21Matrix &other);
   void SubMatrix(const S21Matrix &other);

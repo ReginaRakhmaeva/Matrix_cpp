@@ -117,6 +117,43 @@ S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
   return *this;
 }
 
+S21Matrix &S21Matrix::operator*=(const S21Matrix &other) {
+  if (cols_ != other.rows_) {
+    throw std::invalid_argument(
+        "Matrices cannot be multiplied: incompatible dimensions.");
+  }
+
+  S21Matrix result(rows_, other.cols_);
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < other.cols_; j++) {
+      result.matrix_[i][j] = 0.0;
+      for (int k = 0; k < cols_; k++) {
+        result.matrix_[i][j] += matrix_[i][k] * other.matrix_[k][j];
+      }
+    }
+  }
+
+  *this = result;
+  return *this;
+}
+
+S21Matrix &S21Matrix::operator=(const S21Matrix &other) {
+  if (this != &other) {
+    this->~S21Matrix();
+
+    rows_ = other.rows_;
+    cols_ = other.cols_;
+    matrix_ = new double *[rows_];
+    for (int i = 0; i < rows_; i++) {
+      matrix_[i] = new double[cols_];
+      for (int j = 0; j < cols_; j++) {
+        matrix_[i][j] = other.matrix_[i][j];
+      }
+    }
+  }
+  return *this;
+}
+
 void S21Matrix::SumMatrix(const S21Matrix &other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument(

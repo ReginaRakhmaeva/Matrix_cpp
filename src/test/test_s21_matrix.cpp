@@ -94,6 +94,89 @@ TEST(S21MatrixTest, SubtractMatrixAssign) {
   EXPECT_EQ(m1.getValue(1, 1), 4.0);
 }
 
+// Тестирование оператора -= для матриц с разными размерами
+TEST(S21MatrixTest, SubtractMatrixAssignInvalidDimensions) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(3, 3);
+
+  EXPECT_THROW({ m1 -= m2; }, std::invalid_argument);
+}
+
+// Тестирование оператора *= для умножения матриц
+TEST(S21MatrixTest, MultiplyMatrixAssign) {
+  S21Matrix m1(2, 3);
+  S21Matrix m2(3, 2);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+
+  m2.setValue(0, 0, 7.0);
+  m2.setValue(1, 0, 8.0);
+  m2.setValue(2, 0, 9.0);
+  m2.setValue(0, 1, 10.0);
+  m2.setValue(1, 1, 11.0);
+  m2.setValue(2, 1, 12.0);
+
+  m1 *= m2;
+
+  EXPECT_EQ(m1.getValue(0, 0), 50.0);
+  EXPECT_EQ(m1.getValue(0, 1), 68.0);
+  EXPECT_EQ(m1.getValue(1, 0), 122.0);
+  EXPECT_EQ(m1.getValue(1, 1), 167.0);
+}
+
+// Тестирование оператора *= для матриц с несовместимыми размерами
+TEST(S21MatrixTest, MultiplyMatrixAssignInvalidDimensions) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(3, 3);
+
+  EXPECT_THROW({ m1 *= m2; }, std::invalid_argument);
+}
+
+// Проверка правильности присваивания
+TEST(S21MatrixTest, AssignmentOperator) {
+  S21Matrix m1(2, 2);
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(1, 1, 2.0);
+
+  S21Matrix m2(2, 2);
+  m2 = m1;
+
+  EXPECT_EQ(m2.getValue(0, 0), 1.0);
+  EXPECT_EQ(m2.getValue(1, 1), 2.0);
+}
+
+// Проверка самоприсваивания
+TEST(S21MatrixTest, SelfAssignment) {
+  S21Matrix m1(2, 2);
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(1, 1, 2.0);
+
+  m1 = m1;
+
+  EXPECT_EQ(m1.getValue(0, 0), 1.0);
+  EXPECT_EQ(m1.getValue(1, 1), 2.0);
+}
+
+// Проверка корректности работы с динамической памятью
+TEST(S21MatrixTest, AssignmentDifferentSizes) {
+  S21Matrix m1(2, 2);
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(1, 1, 2.0);
+
+  S21Matrix m2(3, 3);
+  m2 = m1;
+
+  EXPECT_EQ(m2.getRows(), 2);
+  EXPECT_EQ(m2.getCols(), 2);
+  EXPECT_EQ(m2.getValue(0, 0), 1.0);
+  EXPECT_EQ(m2.getValue(1, 1), 2.0);
+}
+
 // Тестирование метода SumMatrix
 TEST(S21MatrixTest, SumMatrixMethod) {
   S21Matrix m1(2, 2);
