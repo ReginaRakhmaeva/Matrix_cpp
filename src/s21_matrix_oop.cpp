@@ -104,6 +104,19 @@ S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
   return *this;
 }
 
+S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
+  if (rows_ != other.rows_ || cols_ != other.cols_) {
+    throw std::invalid_argument(
+        "Matrices must have the same dimensions for subtraction.");
+  }
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
+      matrix_[i][j] -= other.matrix_[i][j];
+    }
+  }
+  return *this;
+}
+
 void S21Matrix::SumMatrix(const S21Matrix &other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument(

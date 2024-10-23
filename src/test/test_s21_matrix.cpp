@@ -70,6 +70,30 @@ TEST(S21MatrixTest, OperatorPlusEqual) {
   EXPECT_EQ(m1.getValue(0, 0), 4.0);
   EXPECT_EQ(m1.getValue(0, 1), 6.0);
 }
+
+// Тестирование оператора -= для вычитания матриц
+TEST(S21MatrixTest, SubtractMatrixAssign) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+
+  m1.setValue(0, 0, 5.0);
+  m1.setValue(0, 1, 6.0);
+  m1.setValue(1, 0, 7.0);
+  m1.setValue(1, 1, 8.0);
+
+  m2.setValue(0, 0, 1.0);
+  m2.setValue(0, 1, 2.0);
+  m2.setValue(1, 0, 3.0);
+  m2.setValue(1, 1, 4.0);
+
+  m1 -= m2;
+
+  EXPECT_EQ(m1.getValue(0, 0), 4.0);
+  EXPECT_EQ(m1.getValue(0, 1), 4.0);
+  EXPECT_EQ(m1.getValue(1, 0), 4.0);
+  EXPECT_EQ(m1.getValue(1, 1), 4.0);
+}
+
 // Тестирование метода SumMatrix
 TEST(S21MatrixTest, SumMatrixMethod) {
   S21Matrix m1(2, 2);
