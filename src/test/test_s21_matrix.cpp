@@ -155,6 +155,30 @@ TEST(S21MatrixTest, OperatorMultiply) {
   EXPECT_EQ(result.getValue(1, 1), expected.getValue(1, 1));
 }
 
+// Тест на исключение при попытке умножить матрицы с несовместимыми размерами
+TEST(S21MatrixTest, OperatorMultiplyInvalidDimensions) {
+  S21Matrix m1(2, 3);
+  S21Matrix m2(4, 2);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+
+  m2.setValue(0, 0, 7.0);
+  m2.setValue(0, 1, 8.0);
+  m2.setValue(1, 0, 9.0);
+  m2.setValue(1, 1, 10.0);
+  m2.setValue(2, 0, 11.0);
+  m2.setValue(2, 1, 12.0);
+  m2.setValue(3, 0, 13.0);
+  m2.setValue(3, 1, 14.0);
+
+  EXPECT_THROW({ S21Matrix result = m1 * m2; }, std::invalid_argument);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
