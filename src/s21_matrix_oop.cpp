@@ -74,21 +74,31 @@ S21Matrix S21Matrix::operator+(const S21Matrix &other) const {
   return result;
 }
 
-S21Matrix S21Matrix::operator*(const S21Matrix &other) const {
+S21Matrix S21Matrix::Multiply(const S21Matrix &other) const {
   if (cols_ != other.rows_) {
     throw std::invalid_argument(
         "Matrices cannot be multiplied: incompatible dimensions.");
   }
+
   S21Matrix result(rows_, other.cols_);
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < other.cols_; j++) {
+  for (int i = 0; i < rows_; ++i) {
+    for (int j = 0; j < other.cols_; ++j) {
       result.matrix_[i][j] = 0.0;
-      for (int k = 0; k < cols_; k++) {
+      for (int k = 0; k < cols_; ++k) {
         result.matrix_[i][j] += matrix_[i][k] * other.matrix_[k][j];
       }
     }
   }
   return result;
+}
+
+S21Matrix &S21Matrix::operator*=(const S21Matrix &other) {
+  *this = Multiply(other);
+  return *this;
+}
+
+S21Matrix S21Matrix::operator*(const S21Matrix &other) const {
+  return Multiply(other);
 }
 
 S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
@@ -117,53 +127,34 @@ S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
   return *this;
 }
 
-S21Matrix &S21Matrix::operator*=(const S21Matrix &other) {
-  if (cols_ != other.rows_) {
-    throw std::invalid_argument(
-        "Matrices cannot be multiplied: incompatible dimensions.");
-  }
-
-  S21Matrix result(rows_, other.cols_);
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < other.cols_; j++) {
-      result.matrix_[i][j] = 0.0;
-      for (int k = 0; k < cols_; k++) {
-        result.matrix_[i][j] += matrix_[i][k] * other.matrix_[k][j];
-      }
-    }
-  }
-
-  *this = result;
+// Оператор присваивания
+S21Matrix &S21Matrix::operator=(S21Matrix other) {
+  Swap(*this, other);
   return *this;
 }
 
-S21Matrix &S21Matrix::operator=(const S21Matrix &other) {
-  if (this != &other) {
-    this->~S21Matrix();
-
-    rows_ = other.rows_;
-    cols_ = other.cols_;
-    matrix_ = new double *[rows_];
-    for (int i = 0; i < rows_; i++) {
-      matrix_[i] = new double[cols_];
-      for (int j = 0; j < cols_; j++) {
-        matrix_[i][j] = other.matrix_[i][j];
-      }
-    }
-  }
-  return *this;
+void Swap(S21Matrix &first, S21Matrix &second) {
+  std::swap(first.rows_, second.rows_);
+  std::swap(first.cols_, second.cols_);
+  std::swap(first.matrix_, second.matrix_);
 }
 
-void S21Matrix::SumMatrix(const S21Matrix &other) {
-  if (rows_ != other.rows_ || cols_ != other.cols_) {
-    throw std::invalid_argument(
-        "Matrices must have the same dimensions for addition.");
+void S21Matrix::SumMatrix(const S21Matrix &other) { *this += other; }
+
+void S21Matrix::CheckIndex(int i, int j) const {
+  if (i >= rows_ || j >= cols_ || i < 0 || j < 0) {
+    throw std::out_of_range("Matrix indices are out of range");
   }
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      matrix_[i][j] += other.matrix_[i][j];
-    }
-  }
+}
+
+double &S21Matrix::operator()(int i, int j) {
+  CheckIndex(i, j);
+  return matrix_[i][j];
+}
+
+const double &S21Matrix::operator()(int i, int j) const {
+  CheckIndex(i, j);
+  return matrix_[i][j];
 }
 
 // для тестов
