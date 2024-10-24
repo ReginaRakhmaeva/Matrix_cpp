@@ -440,6 +440,96 @@ TEST(S21MatrixTest, Transpose) {
   EXPECT_EQ(transposed(2, 1), 6.0);
 }
 
+// Тестирование метода Determinant
+TEST(S21MatrixTest, DeterminantMethod) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(3, 3);
+  S21Matrix m3(3, 3);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(1, 0, 3.0);
+  m1.setValue(1, 1, 4.0);
+
+  m2.setValue(0, 0, 1.0);
+  m2.setValue(0, 1, 2.0);
+  m2.setValue(0, 2, 3.0);
+  m2.setValue(1, 0, 0.0);
+  m2.setValue(1, 1, 1.0);
+  m2.setValue(1, 2, 4.0);
+  m2.setValue(2, 0, 5.0);
+  m2.setValue(2, 1, 6.0);
+  m2.setValue(2, 2, 0.0);
+
+  EXPECT_EQ(m1.Determinant(), -2.0);
+
+  EXPECT_EQ(m2.Determinant(), 1.0);
+}
+
+// Тест на вычисление детерминанта для неквадратной матрицы
+TEST(S21MatrixTest, DeterminantInvalidMatrix) {
+  S21Matrix m(2, 3);
+
+  EXPECT_THROW(m.Determinant(), std::invalid_argument);
+}
+TEST(S21MatrixTest, Determinant1x1Matrix) {
+  S21Matrix m(1, 1);
+  m(0, 0) = 5.0;
+  EXPECT_EQ(m.Determinant(), 5.0);
+}
+TEST(S21MatrixTest, Determinant2x2Matrix) {
+  S21Matrix m(2, 2);
+  m(0, 0) = 1.0;
+  m(0, 1) = 2.0;
+  m(1, 0) = 3.0;
+  m(1, 1) = 4.0;
+  EXPECT_EQ(m.Determinant(), -2.0);
+}
+TEST(S21MatrixTest, Determinant3x3Matrix) {
+  S21Matrix m(3, 3);
+  m(0, 0) = 1.0;
+  m(0, 1) = 2.0;
+  m(0, 2) = 3.0;
+  m(1, 0) = 0.0;
+  m(1, 1) = 1.0;
+  m(1, 2) = 4.0;
+  m(2, 0) = 5.0;
+  m(2, 1) = 6.0;
+  m(2, 2) = 0.0;
+  EXPECT_EQ(m.Determinant(), 1.0);
+}
+
+TEST(S21MatrixTest, GetMinor3x3Matrix) {
+  S21Matrix m(3, 3);
+  m(0, 0) = 1.0;
+  m(0, 1) = 2.0;
+  m(0, 2) = 3.0;
+  m(1, 0) = 4.0;
+  m(1, 1) = 5.0;
+  m(1, 2) = 6.0;
+  m(2, 0) = 7.0;
+  m(2, 1) = 8.0;
+  m(2, 2) = 9.0;
+
+  S21Matrix minor = m.GetMinor(0, 0);
+
+  EXPECT_EQ(minor.getRows(), 2);
+  EXPECT_EQ(minor.getCols(), 2);
+  EXPECT_EQ(minor(0, 0), 5.0);
+  EXPECT_EQ(minor(0, 1), 6.0);
+  EXPECT_EQ(minor(1, 0), 8.0);
+  EXPECT_EQ(minor(1, 1), 9.0);
+}
+
+TEST(S21MatrixTest, GetMinorInvalidIndex) {
+  S21Matrix m(2, 2);
+  m(0, 0) = 1.0;
+  m(0, 1) = 2.0;
+  m(1, 0) = 3.0;
+  m(1, 1) = 4.0;
+  EXPECT_THROW(m.GetMinor(2, 2), std::out_of_range);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

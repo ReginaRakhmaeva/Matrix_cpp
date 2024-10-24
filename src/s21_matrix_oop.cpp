@@ -184,6 +184,42 @@ S21Matrix S21Matrix::Transpose() const {
   return transposed;
 }
 
+double S21Matrix::Determinant() const {
+  if (rows_ != cols_) {
+    throw std::invalid_argument(
+        "Matrix must be square to calculate determinant.");
+  }
+  if (rows_ == 1) {
+    return (*this)(0, 0);
+  }
+  if (rows_ == 2) {
+    return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
+  }
+  double det = 0.0;
+  for (int j = 0; j < cols_; ++j) {
+    S21Matrix minor_matrix = GetMinor(0, j);
+    double minor_det = minor_matrix.Determinant();
+    double sign = (j % 2 == 0) ? 1.0 : -1.0;
+    det += sign * (*this)(0, j) * minor_det;
+  }
+
+  return det;
+}
+
+S21Matrix S21Matrix::GetMinor(int row, int col) const {
+  S21Matrix minor(rows_ - 1, cols_ - 1);
+  for (int i = 0, minor_i = 0; i < rows_; ++i) {
+    if (i == row) continue;
+    for (int j = 0, minor_j = 0; j < cols_; ++j) {
+      if (j == col) continue;
+      minor(minor_i, minor_j) = (*this)(i, j);
+      ++minor_j;
+    }
+    ++minor_i;
+  }
+  return minor;
+}
+
 // для тестов
 int S21Matrix::getRows() const { return rows_; }
 int S21Matrix::getCols() const { return cols_; }

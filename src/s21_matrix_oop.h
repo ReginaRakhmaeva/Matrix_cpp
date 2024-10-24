@@ -54,7 +54,8 @@ class S21Matrix {
   void CheckIndex(int i, int j) const;
   void SumMatrix(const S21Matrix &other);
   void SubMatrix(const S21Matrix &other);
-  double Determinant();
+  double Determinant() const;
+  S21Matrix GetMinor(int row, int col) const;
   S21Matrix Transpose() const;
   S21Matrix CalcComplements() const;
   S21Matrix InverseMatrix();
