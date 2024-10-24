@@ -192,6 +192,46 @@ TEST(S21MatrixTest, SumMatrixMethod) {
   EXPECT_EQ(m1.getValue(0, 1), 6.0);
 }
 
+// Тестирование метода SubMatrix
+TEST(S21MatrixTest, SubMatrixMethod) {
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+  m1.setValue(2, 0, 7.0);
+  m1.setValue(2, 1, 8.0);
+  m1.setValue(2, 2, 9.0);
+
+  m2.setValue(0, 0, 9.0);
+  m2.setValue(0, 1, 8.0);
+  m2.setValue(0, 2, 7.0);
+  m2.setValue(1, 0, 6.0);
+  m2.setValue(1, 1, 5.0);
+  m2.setValue(1, 2, 4.0);
+  m2.setValue(2, 0, 3.0);
+  m2.setValue(2, 1, 2.0);
+  m2.setValue(2, 2, 1.0);
+
+  m1.SubMatrix(m2);
+
+  EXPECT_EQ(m1.getValue(0, 0), -8.0);
+  EXPECT_EQ(m1.getValue(0, 1), -6.0);
+  EXPECT_EQ(m1.getValue(0, 2), -4.0);
+
+  EXPECT_EQ(m1.getValue(1, 0), -2.0);
+  EXPECT_EQ(m1.getValue(1, 1), 0.0);
+  EXPECT_EQ(m1.getValue(1, 2), 2.0);
+
+  EXPECT_EQ(m1.getValue(2, 0), 4.0);
+  EXPECT_EQ(m1.getValue(2, 1), 6.0);
+  EXPECT_EQ(m1.getValue(2, 2), 8.0);
+}
+
 // Тестирование на выброс исключения при некорректных размерах
 TEST(S21MatrixTest, InvalidConstructor) {
   EXPECT_THROW(S21Matrix(-1, 2), std::invalid_argument);

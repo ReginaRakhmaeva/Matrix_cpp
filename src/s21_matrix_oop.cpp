@@ -156,6 +156,7 @@ void Swap(S21Matrix &first, S21Matrix &second) {
 }
 
 void S21Matrix::SumMatrix(const S21Matrix &other) { *this += other; }
+void S21Matrix::SubMatrix(const S21Matrix &other) { *this -= other; }
 
 void S21Matrix::CheckIndex(int i, int j) const {
   if (i >= rows_ || j >= cols_ || i < 0 || j < 0) {
