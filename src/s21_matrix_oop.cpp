@@ -101,6 +101,22 @@ S21Matrix S21Matrix::operator*(const S21Matrix &other) const {
   return Multiply(other);
 }
 
+void S21Matrix::MulMatrix(const S21Matrix &other) {
+  if (cols_ != other.rows_) {
+    throw std::invalid_argument(
+        "Matrices cannot be multiplied: incompatible dimensions.");
+  }
+  *this = Multiply(other);
+}
+
+void S21Matrix::MulNumber(const double num) {
+  for (int i = 0; i < rows_; ++i) {
+    for (int j = 0; j < cols_; ++j) {
+      matrix_[i][j] *= num;
+    }
+  }
+}
+
 S21Matrix &S21Matrix::operator+=(const S21Matrix &other) {
   if (rows_ != other.rows_ || cols_ != other.cols_) {
     throw std::invalid_argument(

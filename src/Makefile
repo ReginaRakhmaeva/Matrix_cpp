@@ -4,6 +4,13 @@ GCOV_FLAGS=-fprofile-arcs -ftest-coverage -fPIC
 LIB=s21_matrix_oop.a
 CEXE=s21_test
 
+# CC := gcc
+# CFLAGS := -ggdb -std=c++17 -Wall -Werror -Wextra -lstdc++
+# C_LIBS :=
+# TST_LIBS := -lgtest -lgmock -pthread
+# $(CC) s21_matrix_oop.o test.cpp -o s21_test $(TST_LIBS) $(CFLAGS)
+
+
 #============= FLAGS FOR OS ========================================================
 UNAME:=$(shell uname -s)
 ifeq ($(UNAME),Linux)

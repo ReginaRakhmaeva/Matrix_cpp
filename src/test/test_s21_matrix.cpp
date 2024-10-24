@@ -285,6 +285,98 @@ TEST(S21MatrixTest, OperatorMultiplyInvalidDimensions) {
 
   EXPECT_THROW({ S21Matrix result = m1 * m2; }, std::invalid_argument);
 }
+// тест для MulMatrix
+TEST(S21MatrixTest, MulMatrix) {
+  S21Matrix m1(2, 3);
+  S21Matrix m2(3, 2);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+
+  m2.setValue(0, 0, 7.0);
+  m2.setValue(1, 0, 8.0);
+  m2.setValue(2, 0, 9.0);
+  m2.setValue(0, 1, 10.0);
+  m2.setValue(1, 1, 11.0);
+  m2.setValue(2, 1, 12.0);
+
+  m1.MulMatrix(m2);
+
+  EXPECT_EQ(m1.getValue(0, 0), 50.0);
+  EXPECT_EQ(m1.getValue(0, 1), 68.0);
+  EXPECT_EQ(m1.getValue(1, 0), 122.0);
+  EXPECT_EQ(m1.getValue(1, 1), 167.0);
+}
+
+TEST(S21MatrixTest, MulMatrixIncompatibleSizes) {
+  S21Matrix m1(2, 3);
+  S21Matrix m2(4, 2);
+
+  EXPECT_THROW(m1.MulMatrix(m2), std::invalid_argument);
+}
+TEST(S21MatrixTest, MulMatrixSquare) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(1, 0, 3.0);
+  m1.setValue(1, 1, 4.0);
+
+  m2.setValue(0, 0, 5.0);
+  m2.setValue(0, 1, 6.0);
+  m2.setValue(1, 0, 7.0);
+  m2.setValue(1, 1, 8.0);
+
+  m1.MulMatrix(m2);
+
+  EXPECT_EQ(m1.getValue(0, 0), 19.0);
+  EXPECT_EQ(m1.getValue(0, 1), 22.0);
+  EXPECT_EQ(m1.getValue(1, 0), 43.0);
+  EXPECT_EQ(m1.getValue(1, 1), 50.0);
+}
+
+// тест для MulNumber
+TEST(S21MatrixTest, MulNumber) {
+  S21Matrix m1(2, 3);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+
+  double num = 2.0;
+  m1.MulNumber(num);
+
+  EXPECT_EQ(m1.getValue(0, 0), 2.0);
+  EXPECT_EQ(m1.getValue(0, 1), 4.0);
+  EXPECT_EQ(m1.getValue(0, 2), 6.0);
+  EXPECT_EQ(m1.getValue(1, 0), 8.0);
+  EXPECT_EQ(m1.getValue(1, 1), 10.0);
+  EXPECT_EQ(m1.getValue(1, 2), 12.0);
+}
+
+TEST(S21MatrixTest, MulNumberNegative) {
+  S21Matrix m1(2, 2);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, -2.0);
+  m1.setValue(1, 0, 3.0);
+  m1.setValue(1, 1, -4.0);
+
+  m1.MulNumber(-3.0);
+
+  EXPECT_EQ(m1.getValue(0, 0), -3.0);
+  EXPECT_EQ(m1.getValue(0, 1), 6.0);
+  EXPECT_EQ(m1.getValue(1, 0), -9.0);
+  EXPECT_EQ(m1.getValue(1, 1), 12.0);
+}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

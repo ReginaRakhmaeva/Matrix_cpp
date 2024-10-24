@@ -49,11 +49,11 @@ class S21Matrix {
   friend void Swap(S21Matrix &first, S21Matrix &second);
   S21Matrix operator*(const S21Matrix &other) const;
   S21Matrix Multiply(const S21Matrix &other) const;
+  void MulMatrix(const S21Matrix &other);
+  void MulNumber(const double num);
   void CheckIndex(int i, int j) const;
   void SumMatrix(const S21Matrix &other);
   void SubMatrix(const S21Matrix &other);
-  void MulNumber(const double num);
-  void MulMatrix(const S21Matrix &other);
   double Determinant();
   S21Matrix Transpose();
   S21Matrix CalcComplements();
