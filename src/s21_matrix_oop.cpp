@@ -220,6 +220,34 @@ S21Matrix S21Matrix::GetMinor(int row, int col) const {
   return minor;
 }
 
+S21Matrix S21Matrix::CalcComplements() const {
+  if (rows_ != cols_) {
+    throw std::invalid_argument(
+        "Matrix must be square to calculate complements.");
+  }
+  S21Matrix complements(rows_, cols_);
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
+      S21Matrix minor = this->GetMinor(i, j);
+      double cofactor = (i + j) % 2 == 0 ? 1.0 : -1.0;
+      complements(i, j) = cofactor * minor.Determinant();
+    }
+  }
+  return complements;
+}
+
+S21Matrix S21Matrix::InverseMatrix() const {
+  double det = this->Determinant();
+  if (det == 0) {
+    throw std::invalid_argument("Matrix is singular and cannot be inverted.");
+  }
+  S21Matrix complements = this->CalcComplements();
+  S21Matrix transposedComplements = complements.Transpose();
+  transposedComplements.MulNumber(1.0 / det);
+
+  return transposedComplements;
+}
+
 // для тестов
 int S21Matrix::getRows() const { return rows_; }
 int S21Matrix::getCols() const { return cols_; }

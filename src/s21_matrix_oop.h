@@ -58,7 +58,7 @@ class S21Matrix {
   S21Matrix GetMinor(int row, int col) const;
   S21Matrix Transpose() const;
   S21Matrix CalcComplements() const;
-  S21Matrix InverseMatrix();
+  S21Matrix InverseMatrix() const;
 };
 
 #endif  // s21_matrix_oop_H

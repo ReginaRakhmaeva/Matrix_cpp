@@ -530,6 +530,92 @@ TEST(S21MatrixTest, GetMinorInvalidIndex) {
   EXPECT_THROW(m.GetMinor(2, 2), std::out_of_range);
 }
 
+// Тестирование метода CalcComplements
+TEST(S21MatrixTest, CalcComplementsMethod) {
+  S21Matrix m1(3, 3);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 0.0);
+  m1.setValue(1, 1, 1.0);
+  m1.setValue(1, 2, 4.0);
+  m1.setValue(2, 0, 5.0);
+  m1.setValue(2, 1, 6.0);
+  m1.setValue(2, 2, 0.0);
+
+  S21Matrix complements = m1.CalcComplements();
+
+  // Проверяем значения алгебраических дополнений
+  EXPECT_EQ(complements.getValue(0, 0), -24.0);
+  EXPECT_EQ(complements.getValue(0, 1), 20.0);  // Исправлено
+  EXPECT_EQ(complements.getValue(0, 2), -5.0);  // Исправлено
+  EXPECT_EQ(complements.getValue(1, 0), 18.0);  // Исправлено
+  EXPECT_EQ(complements.getValue(1, 1), -15.0);
+  EXPECT_EQ(complements.getValue(1, 2), 4.0);   // Исправлено
+  EXPECT_EQ(complements.getValue(2, 0), 5.0);   // Исправлено
+  EXPECT_EQ(complements.getValue(2, 1), -4.0);  // Исправлено
+  EXPECT_EQ(complements.getValue(2, 2), 1.0);
+}
+
+// Тестирование исключений CalcComplements для неквадратной матрицы
+TEST(S21MatrixTest, CalcComplementsNonSquareMatrix) {
+  S21Matrix m1(2, 3);
+
+  EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);
+}
+// Тестирование метода InverseMatrix
+TEST(S21MatrixTest, InverseMatrixMethod) {
+  S21Matrix m1(3, 3);
+
+  m1.setValue(0, 0, 2.0);
+  m1.setValue(0, 1, -1.0);
+  m1.setValue(0, 2, 0.0);
+  m1.setValue(1, 0, -1.0);
+  m1.setValue(1, 1, 2.0);
+  m1.setValue(1, 2, -1.0);
+  m1.setValue(2, 0, 0.0);
+  m1.setValue(2, 1, -1.0);
+  m1.setValue(2, 2, 2.0);
+
+  S21Matrix inverse = m1.InverseMatrix();
+
+  // Проверка значений обратной матрицы
+  EXPECT_NEAR(inverse.getValue(0, 0), 0.75, 1e-6);
+  EXPECT_NEAR(inverse.getValue(0, 1), 0.5, 1e-6);
+  EXPECT_NEAR(inverse.getValue(0, 2), 0.25, 1e-6);
+  EXPECT_NEAR(inverse.getValue(1, 0), 0.5, 1e-6);
+  EXPECT_NEAR(inverse.getValue(1, 1), 1.0, 1e-6);
+  EXPECT_NEAR(inverse.getValue(1, 2), 0.5, 1e-6);
+  EXPECT_NEAR(inverse.getValue(2, 0), 0.25, 1e-6);
+  EXPECT_NEAR(inverse.getValue(2, 1), 0.5, 1e-6);
+  EXPECT_NEAR(inverse.getValue(2, 2), 0.75, 1e-6);
+}
+
+// Тестирование исключений InverseMatrix для вырожденной матрицы
+TEST(S21MatrixTest, InverseMatrixSingularMatrix) {
+  S21Matrix m1(3, 3);
+
+  m1.setValue(0, 0, 1.0);
+  m1.setValue(0, 1, 2.0);
+  m1.setValue(0, 2, 3.0);
+  m1.setValue(1, 0, 4.0);
+  m1.setValue(1, 1, 5.0);
+  m1.setValue(1, 2, 6.0);
+  m1.setValue(2, 0, 7.0);
+  m1.setValue(2, 1, 8.0);
+  m1.setValue(2, 2, 9.0);
+
+  EXPECT_THROW(m1.InverseMatrix(), std::invalid_argument);
+}
+
+// Тестирование исключений InverseMatrix для неквадратной матрицы
+TEST(S21MatrixTest, InverseMatrixNonSquareMatrix) {
+  S21Matrix m1(2, 3);
+
+  EXPECT_THROW(m1.InverseMatrix(), std::invalid_argument);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
