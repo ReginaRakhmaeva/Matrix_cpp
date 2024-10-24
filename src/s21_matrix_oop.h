@@ -55,8 +55,8 @@ class S21Matrix {
   void SumMatrix(const S21Matrix &other);
   void SubMatrix(const S21Matrix &other);
   double Determinant();
-  S21Matrix Transpose();
-  S21Matrix CalcComplements();
+  S21Matrix Transpose() const;
+  S21Matrix CalcComplements() const;
   S21Matrix InverseMatrix();
 };
 

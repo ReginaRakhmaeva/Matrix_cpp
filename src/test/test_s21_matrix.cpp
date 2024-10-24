@@ -378,6 +378,28 @@ TEST(S21MatrixTest, MulNumberNegative) {
   EXPECT_EQ(m1.getValue(1, 1), 12.0);
 }
 
+// тест метода Transpose
+TEST(S21MatrixTest, Transpose) {
+  S21Matrix matrix(2, 3);
+  matrix(0, 0) = 1.0;
+  matrix(0, 1) = 2.0;
+  matrix(0, 2) = 3.0;
+  matrix(1, 0) = 4.0;
+  matrix(1, 1) = 5.0;
+  matrix(1, 2) = 6.0;
+
+  S21Matrix transposed = matrix.Transpose();
+
+  EXPECT_EQ(transposed.getRows(), 3);
+  EXPECT_EQ(transposed.getCols(), 2);
+  EXPECT_EQ(transposed(0, 0), 1.0);
+  EXPECT_EQ(transposed(1, 0), 2.0);
+  EXPECT_EQ(transposed(2, 0), 3.0);
+  EXPECT_EQ(transposed(0, 1), 4.0);
+  EXPECT_EQ(transposed(1, 1), 5.0);
+  EXPECT_EQ(transposed(2, 1), 6.0);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

@@ -173,6 +173,16 @@ const double &S21Matrix::operator()(int i, int j) const {
   return matrix_[i][j];
 }
 
+S21Matrix S21Matrix::Transpose() const {
+  S21Matrix transposed(cols_, rows_);
+  for (int i = 0; i < rows_; ++i) {
+    for (int j = 0; j < cols_; ++j) {
+      transposed(j, i) = matrix_[i][j];
+    }
+  }
+  return transposed;
+}
+
 // для тестов
 int S21Matrix::getRows() const { return rows_; }
 int S21Matrix::getCols() const { return cols_; }
