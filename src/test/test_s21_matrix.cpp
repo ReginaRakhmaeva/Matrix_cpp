@@ -6,6 +6,7 @@ TEST(S21MatrixTest, DefaultConstructor) {
   EXPECT_EQ(m.getRows(), 0);
   EXPECT_EQ(m.getCols(), 0);
   EXPECT_EQ(m.getMatrix(), nullptr);
+  EXPECT_THROW(m(0, 0), std::out_of_range);
 }
 
 // Тестирование параметризированного конструктора
@@ -53,6 +54,60 @@ TEST(S21MatrixTest, OperatorPlus) {
   EXPECT_EQ(result(0, 1), 6.0);
 }
 
+TEST(S21MatrixTest, OperatorPlus_InvalidDimensions) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+
+  EXPECT_THROW(m1 + S21Matrix(0, 2), std::invalid_argument);
+  EXPECT_THROW(m2 + S21Matrix(2, 0), std::invalid_argument);
+}
+
+TEST(S21MatrixTest, OperatorMinus_DifferentSizes) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(3, 3);
+  m1(0, 0) = 5.0;
+  m1(0, 1) = 6.0;
+  m1(1, 0) = 7.0;
+  m1(1, 1) = 8.0;
+
+  EXPECT_THROW(m1 - m2, std::invalid_argument);
+}
+// Тест оператора вычитания -
+TEST(S21MatrixTest, OperatorMinus_Regular) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+  m1(0, 0) = 5.0;
+  m1(0, 1) = 6.0;
+  m2(0, 0) = 2.0;
+  m2(0, 1) = 3.0;
+
+  S21Matrix result = m1 - m2;
+
+  EXPECT_EQ(result(0, 0), 3.0);
+  EXPECT_EQ(result(0, 1), 3.0);
+}
+
+TEST(S21MatrixTest, OperatorMinus_ZeroValues) {
+  S21Matrix m3(2, 2);
+  S21Matrix m4(2, 2);
+  m3(0, 0) = 0.0;
+  m3(0, 1) = 0.0;
+  m4(0, 0) = 1.0;
+  m4(0, 1) = 2.0;
+
+  S21Matrix result2 = m3 - m4;
+
+  EXPECT_EQ(result2(0, 0), -1.0);
+  EXPECT_EQ(result2(0, 1), -2.0);
+}
+
+TEST(S21MatrixTest, OperatorMinus_InvalidDimensions) {
+  S21Matrix m1(2, 2);
+  S21Matrix m2(2, 2);
+  EXPECT_THROW(m1 - S21Matrix(0, 2), std::invalid_argument);
+  EXPECT_THROW(m2 - S21Matrix(2, 0), std::invalid_argument);
+}
+
 // Тестирование оператора +=
 TEST(S21MatrixTest, OperatorPlusEqual) {
   S21Matrix m1(2, 2);
@@ -91,12 +146,17 @@ TEST(S21MatrixTest, SubtractMatrixAssign) {
   EXPECT_EQ(m1(1, 1), 4.0);
 }
 
-// Тестирование оператора -= для матриц с разными размерами
 TEST(S21MatrixTest, SubtractMatrixAssignInvalidDimensions) {
   S21Matrix m1(2, 2);
   S21Matrix m2(3, 3);
 
   EXPECT_THROW({ m1 -= m2; }, std::invalid_argument);
+}
+
+TEST(S21MatrixTest, OperatorMinusEqual_InvalidDimensions) {
+  S21Matrix m1(2, 2);
+  EXPECT_THROW(m1 -= S21Matrix(0, 2), std::invalid_argument);
+  EXPECT_THROW(m1 -= S21Matrix(2, 0), std::invalid_argument);
 }
 
 // Тестирование оператора *= для умножения матриц
@@ -126,7 +186,6 @@ TEST(S21MatrixTest, MultiplyMatrixAssign) {
   EXPECT_EQ(m1(1, 1), 167.0);
 }
 
-// Тестирование оператора *= для матриц с несовместимыми размерами
 TEST(S21MatrixTest, MultiplyMatrixAssignInvalidDimensions) {
   S21Matrix m1(2, 2);
   S21Matrix m2(3, 3);
@@ -243,13 +302,41 @@ TEST(S21MatrixTest, DestructorTest) {
 }
 
 // Тестирование метода EqMatrix
-TEST(S21MatrixTest, EqMatrix) {
+TEST(S21MatrixTest, EqMatrix_SameMatrices) {
+  S21Matrix matrix1(2, 3);
+  matrix1(0, 0) = 5.0;
+  matrix1(1, 2) = -3.0;
+  S21Matrix matrix2(2, 3);
+  matrix2(0, 0) = 5.0;
+  matrix2(1, 2) = -3.0;
+  EXPECT_TRUE(matrix1.EqMatrix(matrix2));
+}
+
+TEST(S21MatrixTest, EqMatrix_DifferentSizes) {
+  S21Matrix matrix1(2, 3);
+  S21Matrix matrix2(3, 2);
+  EXPECT_FALSE(matrix1.EqMatrix(matrix2));
+}
+
+TEST(S21MatrixTest, EqMatrix_SameMatrixReference) {
+  S21Matrix matrix(3, 3);
+  matrix(0, 0) = 1.0;
+  matrix(1, 1) = 2.0;
+  matrix(2, 2) = 3.0;
+  EXPECT_TRUE(matrix.EqMatrix(matrix));
+}
+
+TEST(S21MatrixTest, EqMatrix_EmptyMatrices) {
+  S21Matrix matrix1;
+  S21Matrix matrix2;
+  EXPECT_THROW(matrix1.EqMatrix(matrix2), std::invalid_argument);
+}
+
+TEST(S21MatrixTest, EqMatrix_DifferentElements) {
   S21Matrix matrix1(2, 3);
   matrix1(0, 0) = 5.0;
   S21Matrix matrix2(2, 3);
-  matrix2(0, 0) = 5.0;
-  EXPECT_TRUE(matrix1.EqMatrix(matrix2));
-  matrix2(1, 1) = 10.0;
+  matrix2(0, 0) = 6.0;
   EXPECT_FALSE(matrix1.EqMatrix(matrix2));
 }
 
