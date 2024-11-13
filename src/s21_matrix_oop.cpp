@@ -9,9 +9,21 @@ S21Matrix::S21Matrix(int rows, int cols)
   if (rows_ <= 0 || cols_ <= 0) {
     throw std::invalid_argument("Rows and columns must be positive integers");
   }
+
   matrix_ = new double *[rows_]();
-  for (int i = 0; i < rows_; ++i) {
-    matrix_[i] = new double[cols_]();
+  try {
+    for (int i = 0; i < rows_; ++i) {
+      matrix_[i] = new double[cols_]();
+    }
+  } catch (...) {
+    for (int k = 0; k < rows_; ++k) {
+      if (matrix_[k] != nullptr) {
+        delete[] matrix_[k];
+      }
+    }
+    delete[] matrix_;
+    matrix_ = nullptr;
+    throw;
   }
 }
 
@@ -36,7 +48,9 @@ S21Matrix::S21Matrix(const S21Matrix &other)
     }
   } catch (...) {
     for (int k = 0; k < rows_; ++k) {
-      delete[] matrix_[k];
+      if (matrix_[k] != nullptr) {
+        delete[] matrix_[k];
+      }
     }
     delete[] matrix_;
     matrix_ = nullptr;
