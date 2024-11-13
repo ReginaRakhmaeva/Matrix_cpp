@@ -1,20 +1,13 @@
-CC=g++
-CFLAGS=-Wall -Werror -Wextra -std=c++17
+CC := gcc
+CFLAGS := -coverage -std=c++17 -Wall -Werror -Wextra 
 GCOV_FLAGS=-fprofile-arcs -ftest-coverage -fPIC
 LIB=s21_matrix_oop.a
 CEXE=s21_test
 
-# CC := gcc
-# CFLAGS := -ggdb -std=c++17 -Wall -Werror -Wextra -lstdc++
-# C_LIBS :=
-# TST_LIBS := -lgtest -lgmock -pthread
-# $(CC) s21_matrix_oop.o test.cpp -o s21_test $(TST_LIBS) $(CFLAGS)
-
-
 #============= FLAGS FOR OS ========================================================
 UNAME:=$(shell uname -s)
 ifeq ($(UNAME),Linux)
-	LDFLAGS=-lgtest -lgtest_main -pthread
+	LDFLAGS= -lstdc++ -lgtest -lgmock -pthread
 	OPEN_CM=xdg-open
 endif
 ifeq ($(UNAME),Darwin)
@@ -40,11 +33,11 @@ gcov_s21_matrix_oop.a: clean
 
 #============= TEST ================================================================
 test: clean s21_matrix_oop.a
-	$(CC) ${CFLAGS} test/test_s21_matrix.cpp ${LIB} -o ${CEXE} ${LDFLAGS}
+	$(CC) ${CFLAGS} test/test_s21_matrix.cpp ${LIB} ${LDFLAGS} -lm -o ${CEXE} 
 	./${CEXE}
 
 gcov_report: clean gcov_s21_matrix_oop.a
-	$(CC) ${CFLAGS} ${GCOV_FLAGS} test/test_s21_matrix.cpp ${LIB} -o ${CEXE} ${LDFLAGS}
+	$(CC) ${CFLAGS} ${GCOV_FLAGS} test/test_s21_matrix.cpp ${LIB} -o ${CEXE} ${LDFLAGS} -lm
 	mkdir report
 	./${CEXE} >> report/s21_tests.txt
 	lcov -t "gcov_test" -o gcov_test.info --no-external -c -d .
