@@ -77,6 +77,18 @@ const double &S21Matrix::operator()(int i, int j) const {
   return matrix_[i][j];
 }
 
+// Оператор присваивания
+S21Matrix &S21Matrix::operator=(S21Matrix other) {
+  this->swap(other);
+  return *this;
+}
+
+void S21Matrix::swap(S21Matrix &other) {
+  std::swap(rows_, other.rows_);
+  std::swap(cols_, other.cols_);
+  std::swap(matrix_, other.matrix_);
+}
+
 // для проверок входных данных
 void S21Matrix::CheckDimensions(const S21Matrix &other,
                                 const std::string &op) const {
@@ -205,18 +217,6 @@ S21Matrix &S21Matrix::operator-=(const S21Matrix &other) {
 }
 
 void S21Matrix::SubMatrix(const S21Matrix &other) { *this = Subtract(other); }
-
-// Оператор присваивания
-S21Matrix &S21Matrix::operator=(S21Matrix other) {
-  this->swap(other);
-  return *this;
-}
-
-void S21Matrix::swap(S21Matrix &other) {
-  std::swap(rows_, other.rows_);
-  std::swap(cols_, other.cols_);
-  std::swap(matrix_, other.matrix_);
-}
 
 // транспонирование
 S21Matrix S21Matrix::Transpose() const {

@@ -41,17 +41,41 @@ TEST(S21MatrixTest, MoveConstructor) {
 
 // Тестирование оператора сложения +
 TEST(S21MatrixTest, OperatorPlus) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(2, 2);
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m2(0, 0) = 3.0;
-  m2(0, 1) = 4.0;
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
+
+  m2(0, 0) = 1.123456;
+  m2(0, 1) = 2.654321;
+  m2(0, 2) = 3.999999;
+  m2(1, 0) = 4.123456;
+  m2(1, 1) = 5.654321;
+  m2(1, 2) = 6.999999;
+  m2(2, 0) = 7.123456;
+  m2(2, 1) = 8.654321;
+  m2(2, 2) = 9.999999;
 
   S21Matrix result = m1 + m2;
 
-  EXPECT_EQ(result(0, 0), 4.0);
-  EXPECT_EQ(result(0, 1), 6.0);
+  EXPECT_NEAR(result(0, 0), 2.246912, 1e-6);
+  EXPECT_NEAR(result(0, 1), 5.308642, 1e-6);
+  EXPECT_NEAR(result(0, 2), 7.999998, 1e-6);
+
+  EXPECT_NEAR(result(1, 0), 8.246912, 1e-6);
+  EXPECT_NEAR(result(1, 1), 11.308642, 1e-6);
+  EXPECT_NEAR(result(1, 2), 13.999998, 1e-6);
+
+  EXPECT_NEAR(result(2, 0), 14.246912, 1e-6);
+  EXPECT_NEAR(result(2, 1), 17.308642, 1e-6);
+  EXPECT_NEAR(result(2, 2), 19.999998, 1e-6);
 }
 
 TEST(S21MatrixTest, OperatorPlus_InvalidDimensions) {
@@ -74,17 +98,41 @@ TEST(S21MatrixTest, OperatorMinus_DifferentSizes) {
 }
 // Тест оператора вычитания -
 TEST(S21MatrixTest, OperatorMinus_Regular) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(2, 2);
-  m1(0, 0) = 5.0;
-  m1(0, 1) = 6.0;
-  m2(0, 0) = 2.0;
-  m2(0, 1) = 3.0;
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
+
+  m2(0, 0) = 9.876543;
+  m2(0, 1) = 8.123456;
+  m2(0, 2) = 7.543210;
+  m2(1, 0) = 6.987654;
+  m2(1, 1) = 5.321098;
+  m2(1, 2) = 4.210987;
+  m2(2, 0) = 3.654321;
+  m2(2, 1) = 2.123456;
+  m2(2, 2) = 1.543210;
 
   S21Matrix result = m1 - m2;
 
-  EXPECT_EQ(result(0, 0), 3.0);
-  EXPECT_EQ(result(0, 1), 3.0);
+  EXPECT_NEAR(result(0, 0), -8.753087, 1e-6);
+  EXPECT_NEAR(result(0, 1), -5.469135, 1e-6);
+  EXPECT_NEAR(result(0, 2), -3.543211, 1e-6);
+
+  EXPECT_NEAR(result(1, 0), -2.864198, 1e-6);
+  EXPECT_NEAR(result(1, 1), 0.333223, 1e-6);
+  EXPECT_NEAR(result(1, 2), 2.789012, 1e-6);
+
+  EXPECT_NEAR(result(2, 0), 3.469135, 1e-6);
+  EXPECT_NEAR(result(2, 1), 6.530865, 1e-6);
+  EXPECT_NEAR(result(2, 2), 8.456789, 1e-6);
 }
 
 TEST(S21MatrixTest, OperatorMinus_ZeroValues) {
@@ -110,40 +158,80 @@ TEST(S21MatrixTest, OperatorMinus_InvalidDimensions) {
 
 // Тестирование оператора +=
 TEST(S21MatrixTest, OperatorPlusEqual) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(2, 2);
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m2(0, 0) = 3.0;
-  m2(0, 1) = 4.0;
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
+
+  m2(0, 0) = 1.123456;
+  m2(0, 1) = 2.654321;
+  m2(0, 2) = 3.999999;
+  m2(1, 0) = 4.123456;
+  m2(1, 1) = 5.654321;
+  m2(1, 2) = 6.999999;
+  m2(2, 0) = 7.123456;
+  m2(2, 1) = 8.654321;
+  m2(2, 2) = 9.999999;
 
   m1 += m2;
 
-  EXPECT_EQ(m1(0, 0), 4.0);
-  EXPECT_EQ(m1(0, 1), 6.0);
+  EXPECT_NEAR(m1(0, 0), 2.246912, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 5.308642, 1e-6);
+  EXPECT_NEAR(m1(0, 2), 7.999998, 1e-6);
+
+  EXPECT_NEAR(m1(1, 0), 8.246912, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 11.308642, 1e-6);
+  EXPECT_NEAR(m1(1, 2), 13.999998, 1e-6);
+
+  EXPECT_NEAR(m1(2, 0), 14.246912, 1e-6);
+  EXPECT_NEAR(m1(2, 1), 17.308642, 1e-6);
+  EXPECT_NEAR(m1(2, 2), 19.999998, 1e-6);
 }
 
 // Тестирование оператора -= для вычитания матриц
 TEST(S21MatrixTest, SubtractMatrixAssign) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(2, 2);
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
 
-  m1(0, 0) = 5.0;
-  m1(0, 1) = 6.0;
-  m1(1, 0) = 7.0;
-  m1(1, 1) = 8.0;
-
-  m2(0, 0) = 1.0;
-  m2(0, 1) = 2.0;
-  m2(1, 0) = 3.0;
-  m2(1, 1) = 3.0;
+  m2(0, 0) = 9.876543;
+  m2(0, 1) = 8.123456;
+  m2(0, 2) = 7.543210;
+  m2(1, 0) = 6.987654;
+  m2(1, 1) = 5.321098;
+  m2(1, 2) = 4.210987;
+  m2(2, 0) = 3.654321;
+  m2(2, 1) = 2.123456;
+  m2(2, 2) = 1.543210;
 
   m1 -= m2;
 
-  EXPECT_EQ(m1(0, 0), 4.0);
-  EXPECT_EQ(m1(0, 1), 4.0);
-  EXPECT_EQ(m1(1, 0), 4.0);
-  EXPECT_EQ(m1(1, 1), 5.0);
+  EXPECT_NEAR(m1(0, 0), -8.753087, 1e-6);
+  EXPECT_NEAR(m1(0, 1), -5.469135, 1e-6);
+  EXPECT_NEAR(m1(0, 2), -3.543211, 1e-6);
+
+  EXPECT_NEAR(m1(1, 0), -2.864198, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 0.333223, 1e-6);
+  EXPECT_NEAR(m1(1, 2), 2.789012, 1e-6);
+
+  EXPECT_NEAR(m1(2, 0), 3.469135, 1e-6);
+  EXPECT_NEAR(m1(2, 1), 6.530865, 1e-6);
+  EXPECT_NEAR(m1(2, 2), 8.456789, 1e-6);
 }
 
 TEST(S21MatrixTest, SubtractMatrixAssignInvalidDimensions) {
@@ -161,29 +249,42 @@ TEST(S21MatrixTest, OperatorMinusEqual_InvalidDimensions) {
 
 // Тестирование оператора *= для умножения матриц
 TEST(S21MatrixTest, MultiplyMatrixAssign) {
-  S21Matrix m1(2, 3);
-  S21Matrix m2(3, 2);
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
 
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(0, 2) = 3.0;
-  m1(1, 0) = 4.0;
-  m1(1, 1) = 5.0;
-  m1(1, 2) = 6.0;
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
 
-  m2(0, 0) = 7.0;
-  m2(1, 0) = 8.0;
-  m2(2, 0) = 9.0;
-  m2(0, 1) = 10.0;
-  m2(1, 1) = 11.0;
-  m2(2, 1) = 12.0;
+  m2(0, 0) = 1.123456;
+  m2(0, 1) = 2.654321;
+  m2(0, 2) = 3.999999;
+  m2(1, 0) = 4.123456;
+  m2(1, 1) = 5.654321;
+  m2(1, 2) = 6.999999;
+  m2(2, 0) = 7.123456;
+  m2(2, 1) = 8.654321;
+  m2(2, 2) = 9.999999;
 
   m1 *= m2;
 
-  EXPECT_EQ(m1(0, 0), 50.0);
-  EXPECT_EQ(m1(0, 1), 68.0);
-  EXPECT_EQ(m1(1, 0), 122.0);
-  EXPECT_EQ(m1(1, 1), 167.0);
+  EXPECT_NEAR(m1(0, 0), 40.700946113, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 52.60767117, 1e-6);
+  EXPECT_NEAR(m1(0, 2), 63.074053222, 1e-6);
+
+  EXPECT_NEAR(m1(1, 0), 77.812050113, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 103.49656017, 1e-6);
+  EXPECT_NEAR(m1(1, 2), 126.074044222, 1e-6);
+
+  EXPECT_NEAR(m1(2, 0), 114.923154113, 1e-6);
+  EXPECT_NEAR(m1(2, 1), 154.38544917, 1e-6);
+  EXPECT_NEAR(m1(2, 2), 189.074035222, 1e-6);
 }
 
 TEST(S21MatrixTest, MultiplyMatrixAssignInvalidDimensions) {
@@ -235,57 +336,80 @@ TEST(S21MatrixTest, AssignmentDifferentSizes) {
 
 // Тестирование метода SumMatrix
 TEST(S21MatrixTest, SumMatrixMethod) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(2, 2);
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m2(0, 0) = 3.0;
-  m2(0, 1) = 4.0;
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
+
+  m2(0, 0) = 1.123456;
+  m2(0, 1) = 2.654321;
+  m2(0, 2) = 3.999999;
+  m2(1, 0) = 4.123456;
+  m2(1, 1) = 5.654321;
+  m2(1, 2) = 6.999999;
+  m2(2, 0) = 7.123456;
+  m2(2, 1) = 8.654321;
+  m2(2, 2) = 9.999999;
 
   m1.SumMatrix(m2);
 
-  EXPECT_EQ(m1(0, 0), 4.0);
-  EXPECT_EQ(m1(0, 1), 6.0);
+  EXPECT_NEAR(m1(0, 0), 2.246912, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 5.308642, 1e-6);
+  EXPECT_NEAR(m1(0, 2), 7.999998, 1e-6);
+
+  EXPECT_NEAR(m1(1, 0), 8.246912, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 11.308642, 1e-6);
+  EXPECT_NEAR(m1(1, 2), 13.999998, 1e-6);
+
+  EXPECT_NEAR(m1(2, 0), 14.246912, 1e-6);
+  EXPECT_NEAR(m1(2, 1), 17.308642, 1e-6);
+  EXPECT_NEAR(m1(2, 2), 19.999998, 1e-6);
 }
 
 // Тестирование метода SubMatrix
 TEST(S21MatrixTest, SubMatrixMethod) {
   S21Matrix m1(3, 3);
   S21Matrix m2(3, 3);
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
 
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(0, 2) = 3.0;
-  m1(1, 0) = 4.0;
-  m1(1, 1) = 5.0;
-  m1(1, 2) = 6.0;
-  m1(2, 0) = 7.0;
-  m1(2, 1) = 8.0;
-  m1(2, 2) = 9.0;
-
-  m2(0, 0) = 9.0;
-  m2(0, 1) = 8.0;
-  m2(0, 2) = 7.0;
-  m2(1, 0) = 6.0;
-  m2(1, 1) = 5.0;
-  m2(1, 2) = 4.0;
-  m2(2, 0) = 3.0;
-  m2(2, 1) = 2.0;
-  m2(2, 2) = 1.0;
+  m2(0, 0) = 9.876543;
+  m2(0, 1) = 8.123456;
+  m2(0, 2) = 7.543210;
+  m2(1, 0) = 6.987654;
+  m2(1, 1) = 5.321098;
+  m2(1, 2) = 4.210987;
+  m2(2, 0) = 3.654321;
+  m2(2, 1) = 2.123456;
+  m2(2, 2) = 1.543210;
 
   m1.SubMatrix(m2);
 
-  EXPECT_EQ(m1(0, 0), -8.0);
-  EXPECT_EQ(m1(0, 1), -6.0);
-  EXPECT_EQ(m1(0, 2), -4.0);
+  EXPECT_NEAR(m1(0, 0), -8.753087, 1e-6);
+  EXPECT_NEAR(m1(0, 1), -5.469135, 1e-6);
+  EXPECT_NEAR(m1(0, 2), -3.543211, 1e-6);
 
-  EXPECT_EQ(m1(1, 0), -2.0);
-  EXPECT_EQ(m1(1, 1), 0.0);
-  EXPECT_EQ(m1(1, 2), 2.0);
+  EXPECT_NEAR(m1(1, 0), -2.864198, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 0.333223, 1e-6);
+  EXPECT_NEAR(m1(1, 2), 2.789012, 1e-6);
 
-  EXPECT_EQ(m1(2, 0), 4.0);
-  EXPECT_EQ(m1(2, 1), 6.0);
-  EXPECT_EQ(m1(2, 2), 8.0);
+  EXPECT_NEAR(m1(2, 0), 3.469135, 1e-6);
+  EXPECT_NEAR(m1(2, 1), 6.530865, 1e-6);
+  EXPECT_NEAR(m1(2, 2), 8.456789, 1e-6);
 }
 
 // Тестирование на выброс исключения при некорректных размерах
@@ -355,85 +479,88 @@ TEST(S21MatrixTest, OperatorEquals) {
 
 // Тестирование оператора умножения *
 TEST(S21MatrixTest, OperatorMultiply) {
-  S21Matrix m1(2, 3);
-  S21Matrix m2(3, 2);
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
 
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(0, 2) = 3.0;
-  m1(1, 0) = 4.0;
-  m1(1, 1) = 5.0;
-  m1(1, 2) = 6.0;
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
 
-  m2(0, 0) = 7.0;
-  m2(0, 1) = 8.0;
-  m2(1, 0) = 9.0;
-  m2(1, 1) = 10.0;
-  m2(2, 0) = 11.0;
-  m2(2, 1) = 12.0;
-
-  S21Matrix expected(2, 2);
-  expected(0, 0) = 58.0;
-  expected(0, 1) = 64.0;
-  expected(1, 0) = 139.0;
-  expected(1, 1) = 154.0;
+  m2(0, 0) = 1.123456;
+  m2(0, 1) = 2.654321;
+  m2(0, 2) = 3.999999;
+  m2(1, 0) = 4.123456;
+  m2(1, 1) = 5.654321;
+  m2(1, 2) = 6.999999;
+  m2(2, 0) = 7.123456;
+  m2(2, 1) = 8.654321;
+  m2(2, 2) = 9.999999;
 
   S21Matrix result = m1 * m2;
 
-  EXPECT_EQ(result(0, 0), expected(0, 0));
-  EXPECT_EQ(result(0, 1), expected(0, 1));
-  EXPECT_EQ(result(1, 0), expected(1, 0));
-  EXPECT_EQ(result(1, 1), expected(1, 1));
+  EXPECT_NEAR(result(0, 0), 40.700946113, 1e-6);
+  EXPECT_NEAR(result(0, 1), 52.60767117, 1e-6);
+  EXPECT_NEAR(result(0, 2), 63.074053222, 1e-6);
+
+  EXPECT_NEAR(result(1, 0), 77.812050113, 1e-6);
+  EXPECT_NEAR(result(1, 1), 103.49656017, 1e-6);
+  EXPECT_NEAR(result(1, 2), 126.074044222, 1e-6);
+
+  EXPECT_NEAR(result(2, 0), 114.923154113, 1e-6);
+  EXPECT_NEAR(result(2, 1), 154.38544917, 1e-6);
+  EXPECT_NEAR(result(2, 2), 189.074035222, 1e-6);
 }
 
 // Тест на исключение при попытке умножить матрицы с несовместимыми размерами
 TEST(S21MatrixTest, OperatorMultiplyInvalidDimensions) {
   S21Matrix m1(2, 3);
   S21Matrix m2(4, 2);
-
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(0, 2) = 3.0;
-  m1(1, 0) = 4.0;
-  m1(1, 1) = 5.0;
-  m1(1, 2) = 6.0;
-
-  m2(0, 0) = 7.0;
-  m2(0, 1) = 8.0;
-  m2(1, 0) = 9.0;
-  m2(1, 1) = 10.0;
-  m2(2, 0) = 11.0;
-  m2(2, 1) = 12.0;
-  m2(3, 0) = 13.0;
-  m2(3, 1) = 14.0;
-
   EXPECT_THROW({ S21Matrix result = m1 * m2; }, std::invalid_argument);
 }
 // тест для MulMatrix
 TEST(S21MatrixTest, MulMatrix) {
-  S21Matrix m1(2, 3);
-  S21Matrix m2(3, 2);
+  S21Matrix m1(3, 3);
+  S21Matrix m2(3, 3);
 
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(0, 2) = 3.0;
-  m1(1, 0) = 4.0;
-  m1(1, 1) = 5.0;
-  m1(1, 2) = 6.0;
+  m1(0, 0) = 1.123456;
+  m1(0, 1) = 2.654321;
+  m1(0, 2) = 3.999999;
+  m1(1, 0) = 4.123456;
+  m1(1, 1) = 5.654321;
+  m1(1, 2) = 6.999999;
+  m1(2, 0) = 7.123456;
+  m1(2, 1) = 8.654321;
+  m1(2, 2) = 9.999999;
 
-  m2(0, 0) = 7.0;
-  m2(1, 0) = 8.0;
-  m2(2, 0) = 9.0;
-  m2(0, 1) = 10.0;
-  m2(1, 1) = 11.0;
-  m2(2, 1) = 12.0;
+  m2(0, 0) = 1.123456;
+  m2(0, 1) = 2.654321;
+  m2(0, 2) = 3.999999;
+  m2(1, 0) = 4.123456;
+  m2(1, 1) = 5.654321;
+  m2(1, 2) = 6.999999;
+  m2(2, 0) = 7.123456;
+  m2(2, 1) = 8.654321;
+  m2(2, 2) = 9.999999;
 
   m1.MulMatrix(m2);
 
-  EXPECT_EQ(m1(0, 0), 50.0);
-  EXPECT_EQ(m1(0, 1), 68.0);
-  EXPECT_EQ(m1(1, 0), 122.0);
-  EXPECT_EQ(m1(1, 1), 167.0);
+  EXPECT_NEAR(m1(0, 0), 40.700946113, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 52.60767117, 1e-6);
+  EXPECT_NEAR(m1(0, 2), 63.074053222, 1e-6);
+
+  EXPECT_NEAR(m1(1, 0), 77.812050113, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 103.49656017, 1e-6);
+  EXPECT_NEAR(m1(1, 2), 126.074044222, 1e-6);
+
+  EXPECT_NEAR(m1(2, 0), 114.923154113, 1e-6);
+  EXPECT_NEAR(m1(2, 1), 154.38544917, 1e-6);
+  EXPECT_NEAR(m1(2, 2), 189.074035222, 1e-6);
 }
 
 TEST(S21MatrixTest, MulMatrixIncompatibleSizes) {
@@ -441,27 +568,6 @@ TEST(S21MatrixTest, MulMatrixIncompatibleSizes) {
   S21Matrix m2(4, 2);
 
   EXPECT_THROW(m1.MulMatrix(m2), std::invalid_argument);
-}
-TEST(S21MatrixTest, MulMatrixSquare) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(2, 2);
-
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(1, 0) = 3.0;
-  m1(1, 1) = 4.0;
-
-  m2(0, 0) = 5.0;
-  m2(0, 1) = 6.0;
-  m2(1, 0) = 7.0;
-  m2(1, 1) = 8.0;
-
-  m1.MulMatrix(m2);
-
-  EXPECT_EQ(m1(0, 0), 19.0);
-  EXPECT_EQ(m1(0, 1), 22.0);
-  EXPECT_EQ(m1(1, 0), 43.0);
-  EXPECT_EQ(m1(1, 1), 50.0);
 }
 
 // тест для MulNumber
@@ -524,61 +630,56 @@ TEST(S21MatrixTest, Transpose) {
 }
 
 // Тестирование метода Determinant
-TEST(S21MatrixTest, DeterminantMethod) {
-  S21Matrix m1(2, 2);
-  S21Matrix m2(3, 3);
-  S21Matrix m3(3, 3);
-
-  m1(0, 0) = 1.0;
-  m1(0, 1) = 2.0;
-  m1(1, 0) = 3.0;
-  m1(1, 1) = 4.0;
-
-  m2(0, 0) = 1.0;
-  m2(0, 1) = 2.0;
-  m2(0, 2) = 3.0;
-  m2(1, 0) = 0.0;
-  m2(1, 1) = 1.0;
-  m2(1, 2) = 4.0;
-  m2(2, 0) = 5.0;
-  m2(2, 1) = 6.0;
-  m2(2, 2) = 0.0;
-
-  EXPECT_EQ(m1.Determinant(), -2.0);
-  EXPECT_EQ(m2.Determinant(), 1.0);
-}
-
-// Тест на вычисление детерминанта для неквадратной матрицы
 TEST(S21MatrixTest, DeterminantInvalidMatrix) {
   S21Matrix m(2, 3);
 
   EXPECT_THROW(m.Determinant(), std::invalid_argument);
 }
-TEST(S21MatrixTest, Determinant1x1Matrix) {
-  S21Matrix m(1, 1);
-  m(0, 0) = 5.0;
-  EXPECT_EQ(m.Determinant(), 5.0);
+TEST(S21MatrixTest, Determinant1x1) {
+  S21Matrix m1(1, 1);
+  m1(0, 0) = 3.678;
+  double result = m1.Determinant();
+  EXPECT_NEAR(result, 3.678, 1e-6);
 }
-TEST(S21MatrixTest, Determinant2x2Matrix) {
-  S21Matrix m(2, 2);
-  m(0, 0) = 1.0;
-  m(0, 1) = 2.0;
-  m(1, 0) = 3.0;
-  m(1, 1) = 4.0;
-  EXPECT_EQ(m.Determinant(), -2.0);
+
+TEST(S21MatrixTest, Determinant2x2) {
+  S21Matrix m2(2, 2);
+  m2(0, 0) = 12.345678;
+  m2(0, 1) = 4.34;
+  m2(1, 0) = 4.6;
+  m2(1, 1) = 7.24;
+  double result = m2.Determinant();
+  EXPECT_NEAR(result, 69.41870872, 1e-6);
 }
-TEST(S21MatrixTest, Determinant3x3Matrix) {
-  S21Matrix m(3, 3);
-  m(0, 0) = 1.0;
-  m(0, 1) = 2.0;
-  m(0, 2) = 3.0;
-  m(1, 0) = 0.0;
-  m(1, 1) = 1.0;
-  m(1, 2) = 4.0;
-  m(2, 0) = 5.0;
-  m(2, 1) = 6.0;
-  m(2, 2) = 0.0;
-  EXPECT_EQ(m.Determinant(), 1.0);
+
+TEST(S21MatrixTest, Determinant3x3Negative) {
+  S21Matrix m3(3, 3);
+  m3(0, 0) = 9.876543;
+  m3(0, 1) = 8.123456;
+  m3(0, 2) = 7.543210;
+  m3(1, 0) = 6.987654;
+  m3(1, 1) = 5.321098;
+  m3(1, 2) = 4.210987;
+  m3(2, 0) = 3.654321;
+  m3(2, 1) = 2.123456;
+  m3(2, 2) = 1.543210;
+  double result = m3.Determinant();
+  EXPECT_NEAR(result, -4.55678868, 1e-6);
+}
+
+TEST(S21MatrixTest, Determinant3x3Zero) {
+  S21Matrix m3_zero(3, 3);
+  m3_zero(0, 0) = 1.0;
+  m3_zero(0, 1) = 2.0;
+  m3_zero(0, 2) = 3.0;
+  m3_zero(1, 0) = 1.0;
+  m3_zero(1, 1) = 2.0;
+  m3_zero(1, 2) = 3.0;
+  m3_zero(2, 0) = 1.0;
+  m3_zero(2, 1) = 2.0;
+  m3_zero(2, 2) = 3.0;
+  double result = m3_zero.Determinant();
+  EXPECT_NEAR(result, 0.0, 1e-6);
 }
 
 TEST(S21MatrixTest, GetMinor3x3Matrix) {
@@ -679,7 +780,23 @@ TEST(S21MatrixTest, CalcComplementsMethod) {
   EXPECT_NEAR(result(4, 4), -18196597.497454, 1e-6);
 }
 
-// Тестирование исключений CalcComplements для неквадратной матрицы
+TEST(S21MatrixTest, CalcComplementsMethod1) {
+  S21Matrix m1(2, 2);
+
+  m1(0, 0) = 12.345678;
+  m1(0, 1) = 3.876543;
+
+  m1(1, 0) = 65.432109;
+  m1(1, 1) = 87.654321;
+
+  S21Matrix result = m1.CalcComplements();
+
+  EXPECT_NEAR(result(0, 0), 87.654321, 1e-6);
+  EXPECT_NEAR(result(0, 1), -65.432109, 1e-6);
+  EXPECT_NEAR(result(1, 0), -3.876543, 1e-6);
+  EXPECT_NEAR(result(1, 1), 12.345678, 1e-6);
+}
+
 TEST(S21MatrixTest, CalcComplementsNonSquareMatrix) {
   S21Matrix m1(2, 3);
   EXPECT_THROW(m1.CalcComplements(), std::invalid_argument);

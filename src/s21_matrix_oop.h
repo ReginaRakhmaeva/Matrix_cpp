@@ -1,21 +1,10 @@
 #ifndef S21_MATRIX_OOP_H
 #define S21_MATRIX_OOP_H
 
-// Ошибки сравнение матриц (eq_matrix)
-#define SUCCESS 1
-#define FAILURE 0
-
-// Результирующий код операций
-#define OK 0
-#define FAIL_1 1  // Некорректная матрица;
-#define FAIL_2 2
-// Вычисления (несовпадающие размеры матриц; матрица, для
-// которой нельзя провести вычисления и т. д.).
-
 #include <math.h>
 
 #include <cstring>
-#include <iostream>  // директива препроцессора
+#include <iostream>
 
 class S21Matrix {
  private:
