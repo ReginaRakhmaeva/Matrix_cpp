@@ -18,10 +18,15 @@ class S21Matrix {
   S21Matrix(const S21Matrix &other);
   ~S21Matrix();
 
+  double &operator()(int i, int j);
+  const double &operator()(int i, int j) const;
+
+  S21Matrix &operator=(S21Matrix other);
+  void swap(S21Matrix &other);
+
   int getRows() const;
   int getCols() const;
   double **getMatrix() const;
-
   void setCols(int new_cols);
   void setRows(int new_rows);
   void copyDataToTempMatrix(int new_rows, int new_cols);
@@ -31,8 +36,6 @@ class S21Matrix {
   void CheckPositiveDimensions(const S21Matrix &other) const;
   void CheckIndex(int i, int j) const;
 
-  double &operator()(int i, int j);
-  const double &operator()(int i, int j) const;
   bool operator==(const S21Matrix &other) const;
   bool EqMatrix(const S21Matrix &other) const;
 
@@ -51,9 +54,6 @@ class S21Matrix {
   S21Matrix &operator*=(const S21Matrix &other);
   void MulMatrix(const S21Matrix &other);
   void MulNumber(const double num);
-
-  S21Matrix &operator=(S21Matrix other);
-  void swap(S21Matrix &other);
 
   double Determinant() const;
   S21Matrix GetMinor(int row, int col) const;
