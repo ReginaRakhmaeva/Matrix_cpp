@@ -1,7 +1,11 @@
 #include "s21_matrix_oop.h"
 
-// Конструктор по умолчанию
-S21Matrix::S21Matrix() : rows_(0), cols_(0), matrix_(nullptr) {}
+// Конструктор по умолчанию создает матрицу 1x1, заполненную 0
+S21Matrix::S21Matrix() : rows_(1), cols_(1) {
+  matrix_ = new double *[1];
+  matrix_[0] = new double[1];
+  matrix_[0][0] = 0.0;
+}
 
 // Параметризированный конструктор
 S21Matrix::S21Matrix(int rows, int cols)
@@ -295,3 +299,35 @@ S21Matrix S21Matrix::InverseMatrix() const {
 int S21Matrix::getRows() const { return rows_; }
 int S21Matrix::getCols() const { return cols_; }
 double **S21Matrix::getMatrix() const { return matrix_; }
+
+// Mutator для rows_
+void S21Matrix::setRows(int new_rows) {
+  if (new_rows <= 0) {
+    throw std::invalid_argument("Row count must be a positive integer.");
+  }
+  if (new_rows != rows_) {
+    copyDataToTempMatrix(new_rows, cols_);
+  }
+}
+
+// Mutator для cols_
+void S21Matrix::setCols(int new_cols) {
+  if (new_cols <= 0) {
+    throw std::invalid_argument("Column count must be a positive integer.");
+  }
+  if (new_cols != cols_) {
+    copyDataToTempMatrix(rows_, new_cols);
+  }
+}
+
+void S21Matrix::copyDataToTempMatrix(int new_rows, int new_cols) {
+  S21Matrix temp(new_rows, new_cols);
+
+  for (int i = 0; i < std::min(rows_, new_rows); ++i) {
+    for (int j = 0; j < std::min(cols_, new_cols); ++j) {
+      temp(i, j) = (*this)(i, j);
+    }
+  }
+
+  *this = temp;
+}

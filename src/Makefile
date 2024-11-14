@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -coverage -std=c++17 -Wall -Werror -Wextra 
+CFLAGS := -coverage -std=c++17 -Wall -Werror -Wextra -g
 GCOV_FLAGS=-fprofile-arcs -ftest-coverage -fPIC
 LIB=s21_matrix_oop.a
 CEXE=s21_test

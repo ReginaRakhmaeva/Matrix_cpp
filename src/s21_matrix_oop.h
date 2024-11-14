@@ -22,6 +22,10 @@ class S21Matrix {
   int getCols() const;
   double **getMatrix() const;
 
+  void setCols(int new_cols);
+  void setRows(int new_rows);
+  void copyDataToTempMatrix(int new_rows, int new_cols);
+
   void CheckDimensions(const S21Matrix &other, const std::string &op) const;
   void CheckCompatibility(const S21Matrix &other) const;
   void CheckPositiveDimensions(const S21Matrix &other) const;

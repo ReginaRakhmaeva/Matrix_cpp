@@ -3,10 +3,9 @@
 // Тестирование конструктора по умолчанию
 TEST(S21MatrixTest, DefaultConstructor) {
   S21Matrix m;
-  EXPECT_EQ(m.getRows(), 0);
-  EXPECT_EQ(m.getCols(), 0);
-  EXPECT_EQ(m.getMatrix(), nullptr);
-  EXPECT_THROW(m(0, 0), std::out_of_range);
+  EXPECT_EQ(m.getRows(), 1);
+  EXPECT_EQ(m.getCols(), 1);
+  EXPECT_DOUBLE_EQ(m(0, 0), 0.0);
 }
 
 // Тестирование параметризированного конструктора
@@ -450,12 +449,6 @@ TEST(S21MatrixTest, EqMatrix_SameMatrixReference) {
   EXPECT_TRUE(matrix.EqMatrix(matrix));
 }
 
-TEST(S21MatrixTest, EqMatrix_EmptyMatrices) {
-  S21Matrix matrix1;
-  S21Matrix matrix2;
-  EXPECT_THROW(matrix1.EqMatrix(matrix2), std::invalid_argument);
-}
-
 TEST(S21MatrixTest, EqMatrix_DifferentElements) {
   S21Matrix matrix1(2, 3);
   matrix1(0, 0) = 5.0;
@@ -851,6 +844,112 @@ TEST(S21MatrixTest, InverseMatrixNonSquareMatrix) {
   S21Matrix m1(2, 3);
 
   EXPECT_THROW(m1.InverseMatrix(), std::invalid_argument);
+}
+
+TEST(S21MatrixTest, SetRowsIncrease) {
+  S21Matrix m1(2, 2);
+  m1(0, 0) = 1.1;
+  m1(0, 1) = 2.2;
+  m1(1, 0) = 3.3;
+  m1(1, 1) = 4.4;
+
+  // Увеличение количества строк
+  m1.setRows(3);
+
+  // Проверка, что размеры изменены корректно
+  EXPECT_EQ(m1.getRows(), 3);
+  EXPECT_EQ(m1.getCols(), 2);
+
+  // Проверка, что существующие элементы сохранены
+  EXPECT_NEAR(m1(0, 0), 1.1, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 2.2, 1e-6);
+  EXPECT_NEAR(m1(1, 0), 3.3, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 4.4, 1e-6);
+
+  // Проверка, что новые элементы инициализированы нулями
+  EXPECT_DOUBLE_EQ(m1(2, 0), 0.0);
+  EXPECT_DOUBLE_EQ(m1(2, 1), 0.0);
+}
+
+TEST(S21MatrixTest, SetRowsDecrease) {
+  S21Matrix m1(3, 2);
+  m1(0, 0) = 1.1;
+  m1(0, 1) = 2.2;
+  m1(1, 0) = 3.3;
+  m1(1, 1) = 4.4;
+  m1(2, 0) = 5.5;
+  m1(2, 1) = 6.6;
+
+  // Уменьшение количества строк
+  m1.setRows(2);
+
+  // Проверка, что размеры изменены корректно
+  EXPECT_EQ(m1.getRows(), 2);
+  EXPECT_EQ(m1.getCols(), 2);
+
+  // Проверка, что существующие элементы сохранены
+  EXPECT_NEAR(m1(0, 0), 1.1, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 2.2, 1e-6);
+  EXPECT_NEAR(m1(1, 0), 3.3, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 4.4, 1e-6);
+}
+
+TEST(S21MatrixTest, SetColsIncrease) {
+  S21Matrix m1(2, 2);
+  m1(0, 0) = 1.1;
+  m1(0, 1) = 2.2;
+  m1(1, 0) = 3.3;
+  m1(1, 1) = 4.4;
+
+  // Увеличение количества столбцов
+  m1.setCols(3);
+
+  // Проверка, что размеры изменены корректно
+  EXPECT_EQ(m1.getRows(), 2);
+  EXPECT_EQ(m1.getCols(), 3);
+
+  // Проверка, что существующие элементы сохранены
+  EXPECT_NEAR(m1(0, 0), 1.1, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 2.2, 1e-6);
+  EXPECT_NEAR(m1(1, 0), 3.3, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 4.4, 1e-6);
+
+  // Проверка, что новые элементы инициализированы нулями
+  EXPECT_DOUBLE_EQ(m1(0, 2), 0.0);
+  EXPECT_DOUBLE_EQ(m1(1, 2), 0.0);
+}
+
+TEST(S21MatrixTest, SetColsDecrease) {
+  S21Matrix m1(2, 3);
+  m1(0, 0) = 1.1;
+  m1(0, 1) = 2.2;
+  m1(0, 2) = 3.3;
+  m1(1, 0) = 4.4;
+  m1(1, 1) = 5.5;
+  m1(1, 2) = 6.6;
+
+  // Уменьшение количества столбцов
+  m1.setCols(2);
+
+  // Проверка, что размеры изменены корректно
+  EXPECT_EQ(m1.getRows(), 2);
+  EXPECT_EQ(m1.getCols(), 2);
+
+  // Проверка, что существующие элементы сохранены
+  EXPECT_NEAR(m1(0, 0), 1.1, 1e-6);
+  EXPECT_NEAR(m1(0, 1), 2.2, 1e-6);
+  EXPECT_NEAR(m1(1, 0), 4.4, 1e-6);
+  EXPECT_NEAR(m1(1, 1), 5.5, 1e-6);
+}
+
+TEST(S21MatrixTest, SetRowsNegative) {
+  S21Matrix m1(2, 2);
+  EXPECT_THROW(m1.setRows(-1), std::invalid_argument);  // Ожидаем исключение
+}
+
+TEST(S21MatrixTest, SetColsNegative) {
+  S21Matrix m1(2, 2);
+  EXPECT_THROW(m1.setCols(-1), std::invalid_argument);  // Ожидаем исключение
 }
 
 int main(int argc, char **argv) {
